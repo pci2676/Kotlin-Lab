@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
-    base // 기본적인 라이프 사이클 task 를 제공한다. clean, build 등..
+    base
     java // 기본적인 java task 를 제공한다. compileJava, test, jar 등..
     kotlin("jvm") version "1.4.21" apply false // apply false 로 서브 프로젝트에 일괄적용을 하지 않게 한다.
     id("org.jlleitschuh.gradle.ktlint") version "9.4.1" apply false// kotlin 공식 코딩 컨벤션을 맞춰준다. https://github.com/JLLeitschuh/ktlint-gradle
@@ -13,9 +13,9 @@ allprojects {
     group = "bom.javabom.bomkotlin"
 }
 
-val kotlinProject = arrayOf(
+val kotlinProject = arrayListOf(
     project(":racing-car")
-).asIterable()
+)
 
 configure(kotlinProject) {
     apply {
@@ -39,8 +39,6 @@ configure(kotlinProject) {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
-
-        dependsOn("processResources")
     }
 
     configure<KtlintExtension> {
@@ -53,8 +51,7 @@ configure(kotlinProject) {
         )
     }
 
-
-    tasks.withType<Test> {
+    tasks.withType<Test>{
         useJUnitPlatform()
     }
 }
