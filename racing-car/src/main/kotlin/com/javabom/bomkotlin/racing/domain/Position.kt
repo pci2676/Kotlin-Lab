@@ -1,6 +1,8 @@
-package com.javabom.bomkotlin.racing.model
+package com.javabom.bomkotlin.racing.domain
 
-class Position(val distance: Int) {
+class Position(
+    val distance: Int
+) {
 
     internal fun forward(): Position {
         return Position(this.distance + MOVE_DISTANCE)

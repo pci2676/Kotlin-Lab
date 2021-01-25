@@ -1,4 +1,4 @@
-package com.javabom.bomkotlin.racing.model
+package com.javabom.bomkotlin.racing.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName

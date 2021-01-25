@@ -1,4 +1,4 @@
-package com.javabom.bomkotlin.racing.model
+package com.javabom.bomkotlin.racing.domain
 
 fun interface Engine {
     fun enoughPower(): Boolean
