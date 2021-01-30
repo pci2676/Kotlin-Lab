@@ -2,9 +2,11 @@ package com.javabom.bomkotlin.racing.domain
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.Arguments
 import org.junit.jupiter.params.provider.MethodSource
+import java.util.*
 import java.util.stream.Stream
 
 internal class RaceRecordsTest {
@@ -35,5 +37,30 @@ internal class RaceRecordsTest {
 
         //then
         assertThat(raceRecord).isEqualTo(resultRecords)
+    }
+
+    @DisplayName("경기 기록을 시간 오름차순으로 정렬하여 반환한다.")
+    @Test
+    internal fun getRecordsOrderByTimeAsc() {
+        //given
+        val ford = RacingCar(name = "FORD", engine = { true })
+        val goAndStop: Queue<Boolean> = LinkedList()
+        goAndStop.add(true)
+        goAndStop.add(false)
+        val ferarri = RacingCar(name = "FERRARI", engine = { goAndStop.poll() })
+
+        val race = Race.of(listOf(ford, ferarri), 2)
+        race.start()
+
+        //when
+        val recordsOrderByTimeAsc = race.getRecordsOrderByTimeAsc()
+
+        //then
+        val firstRecords = recordsOrderByTimeAsc.poll()
+        assertThat(firstRecords.getTime()).isEqualTo(1)
+
+        val lastRecords = recordsOrderByTimeAsc.poll()
+        assertThat(lastRecords.findLeader()).hasSize(1)
+        assertThat(lastRecords.findLeader()[0].name).isEqualTo("FORD")
     }
 }
