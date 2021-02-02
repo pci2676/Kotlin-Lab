@@ -1,7 +1,5 @@
 package com.javabom.bomkotlin.racing.domain
 
-import java.util.*
-
 class Race(
     private val racingCars: RacingCars,
     private val time: Int
@@ -16,11 +14,10 @@ class Race(
         }
     }
 
-    fun getRecordsOrderByTimeAsc(): Queue<RaceRecords> {
-        val records: Queue<RaceRecords> = LinkedList()
+    fun getRecordsOrderByTimeAsc(): List<RaceRecords> {
+        val records = mutableListOf<RaceRecords>()
         (1..time).forEach { time ->
-            val recordList = racingCars.getRecords(time)
-            records.add(RaceRecords(recordList))
+            records.add(recorder.findRecords(time))
         }
         return records
     }

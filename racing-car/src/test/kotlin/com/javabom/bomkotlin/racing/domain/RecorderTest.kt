@@ -29,4 +29,27 @@ internal class RecorderTest {
         //then
         assertThat(winner).isEqualTo(listOf(raceRecord3))
     }
+
+    @DisplayName("특정 시간대의 기록을 찾아온다.")
+    @Test
+    fun findRecordsTest() {
+        //given
+        val recorder = Recorder.empty()
+
+        val ford1 = RaceRecord(0, "FORD", 1)
+        val raceRecords1 = RaceRecords(listOf(ford1))
+        val ford2 = RaceRecord(1, "FORD", 2)
+        val raceRecords2 = RaceRecords(listOf(ford2))
+
+        recorder.addRecords(raceRecords1)
+        recorder.addRecords(raceRecords2)
+
+        //when
+        val records1 = recorder.findRecords(1)
+        val records2 = recorder.findRecords(2)
+
+        //then
+        assertThat(records1).isEqualTo(raceRecords1)
+        assertThat(records2).isEqualTo(raceRecords2)
+    }
 }
