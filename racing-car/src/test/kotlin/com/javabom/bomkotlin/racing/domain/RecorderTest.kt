@@ -30,7 +30,7 @@ internal class RecorderTest {
         assertThat(winner).isEqualTo(listOf(raceRecord3))
     }
 
-    @DisplayName("특정 시간대의 기록을 찾아온다.")
+    @DisplayName("기록을 시간 오름차순으로 정렬해서 가져온다.")
     @Test
     fun findRecordsTest() {
         //given
@@ -45,11 +45,10 @@ internal class RecorderTest {
         recorder.addRecords(raceRecords2)
 
         //when
-        val records1 = recorder.findRecords(1)
-        val records2 = recorder.findRecords(2)
+        val records = recorder.getRecords()
 
         //then
-        assertThat(records1).isEqualTo(raceRecords1)
-        assertThat(records2).isEqualTo(raceRecords2)
+        assertThat(records[0]).isEqualTo(raceRecords1)
+        assertThat(records[1]).isEqualTo(raceRecords2)
     }
 }

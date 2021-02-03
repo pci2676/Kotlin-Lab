@@ -13,8 +13,9 @@ class Recorder {
         return records[0].findLeader()
     }
 
-    internal fun findRecords(time: Int): RaceRecords {
-        return records.first { it.getTime() == time }
+    internal fun getRecords(): List<RaceRecords> {
+        records.sortBy { it.getTime() }
+        return records
     }
 
     companion object {

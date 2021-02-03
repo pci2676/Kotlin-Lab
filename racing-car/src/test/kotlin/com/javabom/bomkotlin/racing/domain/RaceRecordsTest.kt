@@ -41,7 +41,7 @@ internal class RaceRecordsTest {
 
     @DisplayName("경기 기록을 시간 오름차순으로 정렬하여 반환한다.")
     @Test
-    internal fun getRecordsOrderByTimeAsc() {
+    fun getRecordsOrderByTimeAscTest() {
         //given
         val ford = RacingCar(name = "FORD", engine = { true })
         val goAndStop: Queue<Boolean> = LinkedList()
@@ -56,10 +56,12 @@ internal class RaceRecordsTest {
         val recordsOrderByTimeAsc = race.getRecordsOrderByTimeAsc()
 
         //then
-        val firstRecords = recordsOrderByTimeAsc.poll()
+        val firstRecords = recordsOrderByTimeAsc[0]
         assertThat(firstRecords.getTime()).isEqualTo(1)
+        assertThat(firstRecords.raceRecords).filteredOn("name", "FORD").extracting("distance").contains(1)
 
-        val lastRecords = recordsOrderByTimeAsc.poll()
+        val lastRecords = recordsOrderByTimeAsc[1]
+        assertThat(lastRecords.raceRecords).filteredOn("name", "FORD").extracting("distance").contains(2)
         assertThat(lastRecords.findLeader()).hasSize(1)
         assertThat(lastRecords.findLeader()[0].name).isEqualTo("FORD")
     }
