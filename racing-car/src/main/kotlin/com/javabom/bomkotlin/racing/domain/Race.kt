@@ -15,11 +15,7 @@ class Race(
     }
 
     fun getRecordsOrderByTimeAsc(): List<RaceRecords> {
-        val records = mutableListOf<RaceRecords>()
-        (1..time).forEach { time ->
-            records.add(recorder.findRecords(time))
-        }
-        return records
+        return recorder.getRecords()
     }
 
     companion object {
