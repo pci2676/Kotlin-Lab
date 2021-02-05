@@ -1,7 +1,5 @@
 package com.javabom.bomkotlin.racing.ui.request
 
-import java.lang.IllegalArgumentException
-
 class TimeRequest(
     _time: String
 ) {

@@ -1,9 +1,8 @@
 package com.javabom.bomkotlin.racing.domain
 
-import org.junit.jupiter.api.Test
-
-import org.assertj.core.api.Assertions.*
+import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Test
 
 internal class RecorderTest {
 

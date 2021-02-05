@@ -1,5 +1,7 @@
 package com.javabom.bomkotlin.racing.domain
 
+import com.javabom.bomkotlin.racing.domain.racingcar.RacingCar
+
 class RaceRecord(
     val distance: Int,
     val name: String,

@@ -1,7 +1,7 @@
 package com.javabom.bomkotlin.racing
 
 import com.javabom.bomkotlin.racing.domain.Race
-import com.javabom.bomkotlin.racing.domain.V8Engine
+import com.javabom.bomkotlin.racing.domain.racingcar.V8Engine
 import com.javabom.bomkotlin.racing.ui.console.RaceCommand
 import com.javabom.bomkotlin.racing.ui.console.RaceOutput
 

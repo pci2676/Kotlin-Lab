@@ -1,5 +1,7 @@
 package com.javabom.bomkotlin.racing.domain
 
+import com.javabom.bomkotlin.racing.domain.racingcar.RacingCar
+
 class Race(
     private val racingCars: RacingCars,
     private val time: Int

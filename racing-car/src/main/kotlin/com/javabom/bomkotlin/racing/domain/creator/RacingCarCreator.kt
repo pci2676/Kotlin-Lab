@@ -1,7 +1,7 @@
 package com.javabom.bomkotlin.racing.domain.creator
 
-import com.javabom.bomkotlin.racing.domain.Engine
-import com.javabom.bomkotlin.racing.domain.RacingCar
+import com.javabom.bomkotlin.racing.domain.racingcar.Engine
+import com.javabom.bomkotlin.racing.domain.racingcar.RacingCar
 
 class RacingCarCreator(
     val names: List<String>

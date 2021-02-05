@@ -1,4 +1,4 @@
-package com.javabom.bomkotlin.racing.domain
+package com.javabom.bomkotlin.racing.domain.racingcar
 
 import kotlin.random.Random
 

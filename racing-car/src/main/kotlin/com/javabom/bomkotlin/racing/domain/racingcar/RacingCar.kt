@@ -1,6 +1,6 @@
-package com.javabom.bomkotlin.racing.domain
+package com.javabom.bomkotlin.racing.domain.racingcar
 
-import com.javabom.bomkotlin.racing.domain.Position.Companion.zero
+import com.javabom.bomkotlin.racing.domain.racingcar.Position.Companion.zero
 
 class RacingCar(
     val name: String,

@@ -1,5 +1,7 @@
 package com.javabom.bomkotlin.racing.domain
 
+import com.javabom.bomkotlin.racing.domain.racingcar.RacingCar
+
 class RacingCars(
     private val racingCars: List<RacingCar>
 ) {

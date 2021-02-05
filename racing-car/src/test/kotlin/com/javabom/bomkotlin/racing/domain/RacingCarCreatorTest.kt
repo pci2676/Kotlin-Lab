@@ -1,6 +1,7 @@
-package com.javabom.bomkotlin.racing.domain.creator
+package com.javabom.bomkotlin.racing.domain
 
-import com.javabom.bomkotlin.racing.domain.RacingCar
+import com.javabom.bomkotlin.racing.domain.creator.RacingCarCreator
+import com.javabom.bomkotlin.racing.domain.racingcar.RacingCar
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatThrownBy
 import org.junit.jupiter.api.DisplayName

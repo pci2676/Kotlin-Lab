@@ -1,7 +1,5 @@
 package com.javabom.bomkotlin.racing.domain
 
-import kotlin.math.max
-
 class RaceRecords(
     val raceRecords: List<RaceRecord>
 ) {
