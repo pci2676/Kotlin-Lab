@@ -9,7 +9,7 @@ internal class PositionTest {
 
     @DisplayName("1 전진한다.")
     @Test
-    internal fun forwardTest() {
+    fun forwardTest() {
         //given
         val position = Position.zero()
 
@@ -22,7 +22,7 @@ internal class PositionTest {
 
     @DisplayName("거리가 0인 객체생성")
     @Test
-    internal fun zeroTest() {
+    fun zeroTest() {
         assertThat(Position.zero()).isEqualTo(Position(0))
     }
 }

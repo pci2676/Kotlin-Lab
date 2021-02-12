@@ -14,4 +14,3 @@ fun eval(expr: Expr): Int = when (expr) {
     is Sum -> eval(expr.right) + eval(expr.left)
     else -> throw IllegalArgumentException("Unknown Expression")
 }
-

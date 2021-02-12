@@ -24,7 +24,7 @@ internal class RacingCarCreatorTest {
 
     @DisplayName("빈 이름 리스트로 객체를 생성할 수 없다.")
     @Test
-    internal fun validateTest() {
+    fun validateTest() {
         assertThatThrownBy { RacingCarCreator(emptyList()) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessageContaining("비어있는 이름이 있습니다.")

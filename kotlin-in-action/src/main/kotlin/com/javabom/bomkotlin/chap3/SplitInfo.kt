@@ -40,7 +40,8 @@ fun parsePath(path: String): SplitInfo {
 }
 
 fun parsePath2(path: String): SplitInfo {
-    val regex = """(.+)/(.+)\.(.+)""".toRegex()
+    val regex =
+        """(.+)/(.+)\.(.+)""".toRegex()
     val matchResult = regex.matchEntire(path) ?: throw IllegalArgumentException("$path : 잘못된 파일 경로입니다.")
     val (directory, fileName, extension) = matchResult.destructured
     return SplitInfo(directory, "$fileName.$extension", fileName, extension)

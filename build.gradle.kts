@@ -1,12 +1,10 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import org.jlleitschuh.gradle.ktlint.KtlintExtension
 
 plugins {
     base
     java // 기본적인 java task 를 제공한다. compileJava, test, jar 등..
     kotlin("jvm") version "1.4.21" apply false // apply false 로 서브 프로젝트에 일괄적용을 하지 않게 한다.
-    id("org.jlleitschuh.gradle.ktlint") version "9.4.1" apply false// kotlin 공식 코딩 컨벤션을 맞춰준다. https://github.com/JLLeitschuh/ktlint-gradle
 }
 
 allprojects {
@@ -21,7 +19,6 @@ val kotlinProject = arrayListOf(
 configure(kotlinProject) {
     apply {
         plugin<KotlinPlatformJvmPlugin>() // kotlin("jvm") 을 적용한다.
-        plugin("org.jlleitschuh.gradle.ktlint") // ktlint 적용한다.
     }
 
     repositories {
@@ -40,16 +37,6 @@ configure(kotlinProject) {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
-    }
-
-    configure<KtlintExtension> {
-        verbose.set(true)
-
-        disabledRules.addAll(
-            "import-ordering",
-            "comment-spacing",
-            "no-blank-line-before-rbrace"
-        )
     }
 
     tasks.named<Test>("test"){

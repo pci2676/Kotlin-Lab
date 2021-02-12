@@ -9,7 +9,7 @@ internal class RacingCarsTest {
 
     @DisplayName("전체 차량을 움직인다.")
     @Test
-    internal fun moveTest() {
+    fun moveTest() {
         //given
         val ford = RacingCar("FORD") { true }
         val ferrari = RacingCar("FERRARI") { false }

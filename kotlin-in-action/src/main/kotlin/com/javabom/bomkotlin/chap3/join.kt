@@ -31,4 +31,3 @@ fun <T> joinToString(
     performOperation()
     return readLine().toString()
 }
-
