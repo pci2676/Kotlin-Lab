@@ -1,7 +1,5 @@
 package com.javabom.bomkotlin.chap3
 
-import java.lang.StringBuilder
-
 var opCount = 0
 
 private fun performOperation() {
