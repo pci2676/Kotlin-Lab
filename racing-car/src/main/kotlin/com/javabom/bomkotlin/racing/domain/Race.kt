@@ -1,10 +1,11 @@
 package com.javabom.bomkotlin.racing.domain
 
 import com.javabom.bomkotlin.racing.domain.racingcar.RacingCar
+import com.javabom.bomkotlin.racing.domain.racingcar.toFirstClassCollection
 
 class Race(
     private val racingCars: RacingCars,
-    private val time: Int
+    private val time: Int,
 ) {
     private val recorder = Recorder.empty()
 
@@ -22,7 +23,7 @@ class Race(
 
     companion object {
         fun of(racingCars: List<RacingCar>, time: Int): Race {
-            return Race(RacingCars(racingCars), time)
+            return Race(racingCars.toFirstClassCollection(), time)
         }
     }
 }

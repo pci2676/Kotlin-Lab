@@ -7,15 +7,16 @@ class RaceOutput {
     companion object {
         fun show(raceRecords: RaceRecords) {
             println("${raceRecords.getTime()} 초")
-            for (raceRecord in raceRecords.raceRecords) {
-                showDistance(raceRecord)
-            }
+            repeat(raceRecords.raceRecords.count()) { showDistance(raceRecords.raceRecords[it]) }
         }
 
         private fun showDistance(raceRecord: RaceRecord) {
-            print(raceRecord.name + " : ")
-            (0..raceRecord.distance).forEach { _ -> print("*") }
-            println()
+            println(raceRecord.name + " : " + makeDistance(raceRecord.distance))
         }
     }
+}
+
+fun makeDistance(distance: Int): String = with(StringBuilder()) {
+    repeat(distance) { append("*") }
+    toString()
 }

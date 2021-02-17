@@ -4,13 +4,13 @@ import com.javabom.bomkotlin.racing.domain.racingcar.Engine
 import com.javabom.bomkotlin.racing.domain.racingcar.RacingCar
 
 class RacingCarCreator(
-    val names: List<String>
+    private val names: List<String>,
 ) {
     init {
         validateNames()
     }
 
-    fun validateNames() {
+    private fun validateNames() {
         val invalid = names.isEmpty() || names.any { name -> name.trim().isBlank() }
 
         if (invalid) {

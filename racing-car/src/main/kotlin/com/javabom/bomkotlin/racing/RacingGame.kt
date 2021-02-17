@@ -13,6 +13,7 @@ class RacingGame {
 
         val racingCars = racerRequest.toRacingCarCreator()
             .toRacingCar(V8Engine())
+
         val race = Race.of(racingCars, time)
         race.start()
 

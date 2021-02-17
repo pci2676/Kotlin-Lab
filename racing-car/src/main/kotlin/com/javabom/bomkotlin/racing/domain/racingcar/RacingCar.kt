@@ -1,10 +1,11 @@
 package com.javabom.bomkotlin.racing.domain.racingcar
 
+import com.javabom.bomkotlin.racing.domain.RacingCars
 import com.javabom.bomkotlin.racing.domain.racingcar.Position.Companion.zero
 
 class RacingCar(
     val name: String,
-    private val engine: Engine
+    private val engine: Engine,
 ) {
     private var position: Position = zero()
 
@@ -43,4 +44,8 @@ class RacingCar(
         return result
     }
 
+}
+
+fun Iterable<RacingCar>.toFirstClassCollection(): RacingCars {
+    return RacingCars(this.toList())
 }
