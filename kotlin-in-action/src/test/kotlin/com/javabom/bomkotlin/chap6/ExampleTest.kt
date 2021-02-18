@@ -8,7 +8,7 @@ import org.junit.jupiter.params.provider.CsvSource
 
 class ExampleTest {
 
-    @DisplayName("안전한 호출 연산자 ?: 를 이용하면 null 을 반환하게 할 수 있다.")
+    @DisplayName("안전한 호출 연산자 [?.] 를 이용하면 null 을 반환하게 할 수 있다.")
     @ParameterizedTest
     @CsvSource(value = [",true", "hello,false"])
     fun `안전한 호출 연산자 테스트 1`(input: String?, expect: Boolean) {
@@ -21,7 +21,7 @@ class ExampleTest {
         assertThat(result.isNullOrBlank()).isEqualTo(expect)
     }
 
-    @DisplayName("엘비스연산자는 기본값을 지정해줄 수 있다.")
+    @DisplayName("엘비스연산자 [?:] 는 기본값을 지정해줄 수 있다.")
     @ParameterizedTest
     @CsvSource(value = [",default", "hello,HELLO"])
     fun `엘비스연산자는 기본값을 지정해줄 수 있다`(input: String?, expect: String) {
@@ -57,19 +57,20 @@ class ExampleTest {
         }
     }
 
-    @DisplayName("let 내부에는 null 이 아닌 값만 진입한다.")
+    @DisplayName("let 은 단일 map 이라고 생각하자.")
     @ParameterizedTest
-    @CsvSource(value = [",true", "hello,false"])
-    fun `let 사용하기`(input: String?, expect: Boolean) {
+    @CsvSource(value = [",true,", "hello,false,true"])
+    fun `let 사용하기`(input: String?, expect: Boolean, expect2: Boolean?) {
         //given
         val set = mutableSetOf<String>()
 
         //when
-        input?.let {
+        val result = input?.let {
             set.add(it)
         }
 
         //then
         assertThat(set.isEmpty()).isEqualTo(expect)
+        assertThat(result).isEqualTo(expect2)
     }
 }
