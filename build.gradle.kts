@@ -2,9 +2,15 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
+    //kotlin
     base
     java // 기본적인 java task 를 제공한다. compileJava, test, jar 등..
     kotlin("jvm") version "1.4.21" apply false // apply false 로 서브 프로젝트에 일괄적용을 하지 않게 한다.
+
+    //spring
+    id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement
+    id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
+    kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
 }
 
 allprojects {
@@ -37,6 +43,72 @@ configure(kotlinProject) {
 
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
+    }
+
+    tasks.named<Test>("test"){
+        useJUnitPlatform()
+    }
+}
+
+val springProjects = arrayListOf(
+    project(":bom-feign")
+)
+
+configure(springProjects){
+    apply {
+        plugin<JavaLibraryPlugin>()
+        plugin<KotlinPlatformJvmPlugin>()
+        plugin("io.spring.dependency-management")
+        plugin("org.springframework.boot")
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.jetbrains.kotlin:kotlin-bom:${Dependencies.Versions.kotlin}")
+            mavenBom("org.springframework.boot:spring-boot-dependencies:${Dependencies.Versions.springBoot}")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:${Dependencies.Versions.springCloud}")
+        }
+        dependencies{
+            dependencySet("io.github.microutils:${Dependencies.Versions.kotlinLogging}") {
+                entry("kotlin-logging-jvm")
+                entry("kotlin-logging-common")
+            }
+        }
+    }
+
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        implementation("io.github.microutils:kotlin-logging-jvm")
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom(configurations.annotationProcessor.get())
+        }
+    }
+
+    tasks.withType<KotlinCompile> {
+        sourceCompatibility = "11"
+
+        kotlinOptions {
+            freeCompilerArgs.plus("-Xjsr305=strict")
+            freeCompilerArgs.plus("-Xjvm-default=enable")
+            freeCompilerArgs.plus("-progressive")
+            freeCompilerArgs.plus("-XXLanguage:+InlineClasses")
+
+            jvmTarget = "11"
+        }
+
+        dependsOn("processResources")
     }
 
     tasks.named<Test>("test"){
