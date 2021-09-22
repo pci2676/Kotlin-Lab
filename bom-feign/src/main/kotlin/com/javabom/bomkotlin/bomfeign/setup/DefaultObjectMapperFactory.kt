@@ -14,24 +14,22 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-class DefaultObjectMapperFactory {
-    companion object {
-        private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+object DefaultObjectMapperFactory {
+    private val dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss")
 
-        private val javaTimeModule = JavaTimeModule()
-            .addDeserializer(LocalDateTime::class.java, LocalDateTimeDeserializer(dateTimeFormatter))
-            .addSerializer(LocalDateTime::class.java, LocalDateTimeSerializer(dateTimeFormatter))
-            .addDeserializer(LocalDate::class.java, LocalDateDeserializer(dateFormatter))
-            .addSerializer(LocalDate::class.java, LocalDateSerializer(dateFormatter))
-            .addDeserializer(LocalTime::class.java, LocalTimeDeserializer(timeFormatter))
-            .addSerializer(LocalTime::class.java, LocalTimeSerializer(timeFormatter))
+    private val javaTimeModule = JavaTimeModule()
+        .addDeserializer(LocalDateTime::class.java, LocalDateTimeDeserializer(dateTimeFormatter))
+        .addSerializer(LocalDateTime::class.java, LocalDateTimeSerializer(dateTimeFormatter))
+        .addDeserializer(LocalDate::class.java, LocalDateDeserializer(dateFormatter))
+        .addSerializer(LocalDate::class.java, LocalDateSerializer(dateFormatter))
+        .addDeserializer(LocalTime::class.java, LocalTimeDeserializer(timeFormatter))
+        .addSerializer(LocalTime::class.java, LocalTimeSerializer(timeFormatter))
 
-        fun getDefaultMapper(): ObjectMapper {
-            return ObjectMapper()
-                .registerModule(javaTimeModule)
-                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-        }
+    fun getDefaultMapper(): ObjectMapper {
+        return ObjectMapper()
+            .registerModule(javaTimeModule)
+            .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     }
 }
