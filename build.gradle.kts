@@ -51,7 +51,8 @@ configure(kotlinProject) {
 }
 
 val springProjects = arrayListOf(
-    project(":bom-feign")
+    project(":bom-feign"),
+    project(":bom-circuit-breaker")
 )
 
 configure(springProjects){
