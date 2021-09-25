@@ -19,5 +19,6 @@ version = "0.0.1"
 
 dependencies {
     api("io.github.resilience4j:resilience4j-all:1.7.0")
+    api("io.github.resilience4j:resilience4j-spring-boot2:1.7.0")
     implementation("org.springframework.boot:spring-boot-starter-validation")
 }

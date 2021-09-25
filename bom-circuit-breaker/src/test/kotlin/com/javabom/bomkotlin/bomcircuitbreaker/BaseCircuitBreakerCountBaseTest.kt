@@ -1,6 +1,6 @@
 package com.javabom.bomkotlin.bomcircuitbreaker
 
-import com.javabom.bomkotlin.bomcircuitbreaker.factory.CircuitBreakerBuilderFactory.circuitBreakerBuilder
+import com.javabom.bomkotlin.bomcircuitbreaker.factory.CircuitBreakerFactory.circuitBreaker
 import com.javabom.bomkotlin.bomcircuitbreaker.setup.BaseCircuitBreaker
 import com.javabom.bomkotlin.bomcircuitbreaker.setup.CircuitBreakerProperties
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException
@@ -30,7 +30,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             },
             fallbackMethod = {
                 true
-            }
+            },
         )
 
         //then
@@ -56,7 +56,7 @@ internal class BaseCircuitBreakerCountBaseTest {
         assertThrows<IllegalArgumentException> {
             circuitBreaker.execute(
                 method = method,
-                fallbackMethod = fallbackMethod
+                fallbackMethod = fallbackMethod,
             )
         }
     }
@@ -92,7 +92,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             name = "testCircuitBreaker",
             failureRate = 50, // 50%
             slowCallRate = 10,
-            slowCallDuration = 30000,
+            slowCallDuration = 3,
             slidingWindowType = "COUNT_BASED",
             slidingWindowSize = 10, // 최근 시도 10개만 쌓아둠
             permittedNumberOfCallsInHalfOpenState = 10,
@@ -101,7 +101,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             automaticTransition = false
         )
 
-        val delegate = circuitBreakerBuilder(properties, listOf(UnsupportedOperationException::class.java))
+        val delegate = circuitBreaker(properties, listOf(UnsupportedOperationException::class.java))
         val circuitBreaker = BaseCircuitBreaker(delegate = delegate)
 
         //when
@@ -121,13 +121,14 @@ internal class BaseCircuitBreakerCountBaseTest {
     @TestFactory
     fun `서킷브레이커 설정에 따라 OPEN 되는 테스트`(): Stream<DynamicTest> {
         //given
-        // 1. 10퍼센트의 실패율이 발생시 OPEN
-        // 2. 아래 설정은 10번중 1번 실패시 발생
+        // 1. 90퍼센트의 실패 발생시 OPEN
+        // 2. 10퍼센트의 slow call 발생시 OPEN
+        // 3. 아래 설정은 10번중 1번 실패시 발생
         val properties = CircuitBreakerProperties(
             name = "testCircuitBreaker",
-            failureRate = 10, // 10%
+            failureRate = 90, // 90%
             slowCallRate = 10,
-            slowCallDuration = 30000,
+            slowCallDuration = 1,
             slidingWindowType = "COUNT_BASED",
             slidingWindowSize = 10, // 최근 시도 10개만 쌓아둠
             permittedNumberOfCallsInHalfOpenState = 10,
@@ -136,7 +137,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             automaticTransition = false
         )
 
-        val delegate = circuitBreakerBuilder(properties)
+        val delegate = circuitBreaker(properties)
 
         val circuitBreaker = BaseCircuitBreaker(delegate = delegate)
 
@@ -148,22 +149,32 @@ internal class BaseCircuitBreakerCountBaseTest {
 
                 //when
                 //9번의 실패
-                repeat(9) {
+                repeat(7) {
                     runCatching { circuitBreaker.execute(method = failMethod) }
                 }
+                runCatching {
+                    circuitBreaker.execute(
+                        method = {
+                            Thread.sleep(1100)
+                            throw RuntimeException()
+                        })
+                }
+                runCatching { circuitBreaker.execute(method = { Thread.sleep(1100) }) }
 
                 //then
                 assertThat(delegate.state).isEqualTo(CircuitBreaker.State.CLOSED)
             },
-            dynamicTest("1번의 성공으로 10번의 조건을 채워 통계 생성된 후 서킷브레이커가 열린다") {
+            dynamicTest("1번의 성공으로 10번의 조건을 채워 통계 생성된 후 slowCall 임계치를 달성해 서킷브레이커가 열린다") {
                 val successMethod = { true }
 
-                //1번의 성공로 90% 달성
+                //1번의 성공로 10개의 요청 달성 -> 통계집계
                 circuitBreaker.execute(method = successMethod)
 
                 //then
-                assertThat(delegate.metrics.failureRate).isEqualTo(90.0f)
-                assertThat(delegate.metrics.numberOfFailedCalls).isEqualTo(9)
+                assertThat(delegate.metrics.failureRate).isEqualTo(80.0f) // 실패율에는 slowCall success 은 측정되지 않는다.
+                assertThat(delegate.metrics.numberOfFailedCalls).isEqualTo(8)
+                assertThat(delegate.metrics.numberOfSlowFailedCalls).isEqualTo(1)
+                assertThat(delegate.metrics.numberOfSlowCalls).isEqualTo(2)
                 assertThat(delegate.state).isEqualTo(CircuitBreaker.State.OPEN)
             }
         )
@@ -179,7 +190,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             name = "testCircuitBreaker",
             failureRate = 100, // 100%
             slowCallRate = 10,
-            slowCallDuration = 30000,
+            slowCallDuration = 3,
             slidingWindowType = SlidingWindowType.COUNT_BASED.name,
             slidingWindowSize = windowSize,
             permittedNumberOfCallsInHalfOpenState = 10,
@@ -188,7 +199,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             automaticTransition = false
         )
 
-        val delegate = circuitBreakerBuilder(properties)
+        val delegate = circuitBreaker(properties)
 
         val circuitBreaker = BaseCircuitBreaker(delegate = delegate)
 
@@ -237,7 +248,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             name = "testCircuitBreaker",
             failureRate = 60, // 60%
             slowCallRate = 10,
-            slowCallDuration = 30000,
+            slowCallDuration = 3,
             slidingWindowType = SlidingWindowType.COUNT_BASED.name,
             slidingWindowSize = 10, // 최근 시도 10개만 쌓아둠
             permittedNumberOfCallsInHalfOpenState = 10,
@@ -246,7 +257,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             automaticTransition = false
         )
 
-        val delegate = circuitBreakerBuilder(properties)
+        val delegate = circuitBreaker(properties)
         val circuitBreaker = BaseCircuitBreaker(delegate = delegate)
 
         return Stream.of(
@@ -307,7 +318,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             name = "testCircuitBreaker",
             failureRate = 60, // 60%
             slowCallRate = 10,
-            slowCallDuration = 30000,
+            slowCallDuration = 3,
             slidingWindowType = SlidingWindowType.COUNT_BASED.name,
             slidingWindowSize = 10, // 최근 시도 10개만 쌓아둠
             permittedNumberOfCallsInHalfOpenState = 10,
@@ -316,7 +327,7 @@ internal class BaseCircuitBreakerCountBaseTest {
             automaticTransition = true
         )
 
-        val delegate = circuitBreakerBuilder(properties)
+        val delegate = circuitBreaker(properties)
 
         val circuitBreaker = BaseCircuitBreaker(delegate = delegate)
 

@@ -1,6 +1,6 @@
 package com.javabom.bomkotlin.bomcircuitbreaker
 
-import com.javabom.bomkotlin.bomcircuitbreaker.factory.CircuitBreakerBuilderFactory.circuitBreakerBuilder
+import com.javabom.bomkotlin.bomcircuitbreaker.factory.CircuitBreakerFactory.circuitBreaker
 import com.javabom.bomkotlin.bomcircuitbreaker.setup.BaseCircuitBreaker
 import com.javabom.bomkotlin.bomcircuitbreaker.setup.CircuitBreakerProperties
 import io.github.resilience4j.circuitbreaker.CircuitBreaker
@@ -33,7 +33,7 @@ internal class BaseCircuitBreakerTimeBaseTest {
             automaticTransition = false
         )
 
-        val delegate = circuitBreakerBuilder(properties)
+        val delegate = circuitBreaker(properties)
 
         val circuitBreaker = BaseCircuitBreaker(delegate = delegate)
 
@@ -81,7 +81,7 @@ internal class BaseCircuitBreakerTimeBaseTest {
             automaticTransition = false
         )
 
-        val delegate = circuitBreakerBuilder(properties)
+        val delegate = circuitBreaker(properties)
         val circuitBreaker = BaseCircuitBreaker(delegate = delegate)
 
         return Stream.of(

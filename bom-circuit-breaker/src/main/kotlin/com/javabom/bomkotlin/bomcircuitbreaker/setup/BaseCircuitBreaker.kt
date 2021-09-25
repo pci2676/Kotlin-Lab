@@ -14,6 +14,7 @@ class BaseCircuitBreaker(
     fun <T> execute(
         method: () -> T,
         fallbackMethod: ((e: Throwable) -> T)? = null,
+        decorating: ((callable: Decorators.DecorateCallable<T>) -> Decorators.DecorateCallable<T>)? = null,
     ): T {
         val decorators = Decorators.ofCallable(method)
             .withCircuitBreaker(delegate)
@@ -21,6 +22,8 @@ class BaseCircuitBreaker(
         fallbackMethod?.run {
             decorators.withFallback(fallbackThrowableCollection, this)
         }
+
+        decorating?.invoke(decorators)
 
         return decorators.decorate()
             .call()
