@@ -11,6 +11,7 @@ plugins {
     id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement
     id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
     kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
+    kotlin("plugin.jpa") version Dependencies.Versions.kotlin apply false
 }
 
 allprojects {
@@ -53,7 +54,8 @@ configure(kotlinProject) {
 
 val springProjects = arrayListOf(
     project(":bom-feign"),
-    project(":bom-circuit-breaker")
+    project(":bom-circuit-breaker"),
+    project(":bom-attribute-converter")
 )
 
 configure(springProjects){

@@ -5,5 +5,6 @@ include(
     "kotlin-in-action",
     "effective-kotlin",
     "bom-feign",
-    "bom-circuit-breaker"
+    "bom-circuit-breaker",
+    "bom-attribute-converter"
 )
