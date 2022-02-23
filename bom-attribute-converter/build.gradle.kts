@@ -1,11 +1,13 @@
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 tasks.getByName<Jar>("jar") {
-    enabled = true
+    enabled = false
 }
 
 tasks.getByName<BootJar>("bootJar") {
-    enabled = false
+    enabled = true
+    mainClassName = "com.javabom.bomkotlin.main.AttributeConverterApplicationKt"
+    archiveFileName.set("${archiveBaseName.get()}.${archiveExtension.get()}")
 }
 
 plugins {
