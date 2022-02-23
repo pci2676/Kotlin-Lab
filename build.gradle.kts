@@ -19,7 +19,8 @@ allprojects {
 
 val kotlinProject = arrayListOf(
     project(":racing-car"),
-    project(":kotlin-in-action")
+    project(":kotlin-in-action"),
+    project(":effective-kotlin")
 )
 
 configure(kotlinProject) {

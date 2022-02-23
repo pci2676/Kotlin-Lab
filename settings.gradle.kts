@@ -1,8 +1,9 @@
 rootProject.name = "bomkotlin"
 
 include(
-"racing-car",
-"kotlin-in-action",
-"bom-feign",
-"bom-circuit-breaker"
+    "racing-car",
+    "kotlin-in-action",
+    "effective-kotlin",
+    "bom-feign",
+    "bom-circuit-breaker"
 )
