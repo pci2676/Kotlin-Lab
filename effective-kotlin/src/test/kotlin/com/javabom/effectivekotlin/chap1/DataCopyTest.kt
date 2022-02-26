@@ -1,4 +1,4 @@
-package bom.javabom.effectivekotlin.chap1
+package com.javabom.effectivekotlin.chap1
 
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test

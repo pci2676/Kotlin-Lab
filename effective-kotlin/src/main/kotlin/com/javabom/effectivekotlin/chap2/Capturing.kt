@@ -1,4 +1,4 @@
-package bom.javabom.effectivekotlin.chap2
+package com.javabom.effectivekotlin.chap2
 
 class CapturingSample {
 
