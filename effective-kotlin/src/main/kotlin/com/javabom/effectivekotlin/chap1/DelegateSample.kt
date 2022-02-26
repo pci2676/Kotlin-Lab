@@ -1,4 +1,4 @@
-package bom.javabom.effectivekotlin.chap1
+package com.javabom.effectivekotlin.chap1
 
 interface Movable {
     fun move()
