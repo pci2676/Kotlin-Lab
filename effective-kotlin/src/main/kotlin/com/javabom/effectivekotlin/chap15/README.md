@@ -124,6 +124,9 @@ fun main() {
 이때 `kotlin.DslMarker` 메타 어노테이션을 사용하면 컴파일 레벨에서 이를 방지할 수 있다.
 
 ```kotlin
+@DslMarker
+annotation class HtmlDsl
+
 @HtmlDsl
 class Table {
     private var tableRows: List<TableRow> = listOf()
